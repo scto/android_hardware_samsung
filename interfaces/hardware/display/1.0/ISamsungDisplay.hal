@@ -1,0 +1,5 @@
+package vendor.samsung.hardware.display@1.0;
+
+interface ISamsungDisplay {
+    setMode(int32_t mode, int32_t enable);
+};

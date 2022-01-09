@@ -1,0 +1,8 @@
+java_library {
+    name: "samsung-fwk",
+    installable: true,
+
+    srcs: [
+        "src/**/*.java",
+    ],
+}

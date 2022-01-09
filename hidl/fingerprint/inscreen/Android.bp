@@ -1,0 +1,67 @@
+soong_config_module_type {
+    name: "samsung_fod_hal_cc_defaults",
+    module_type: "cc_defaults",
+    config_namespace: "SAMSUNG_FOD",
+    value_variables: [
+        "POS_X",
+        "POS_Y",
+        "SIZE",
+    ],
+    properties: ["cppflags"],
+}
+
+samsung_fod_hal_cc_defaults {
+    name: "samsung_fod_hal_defaults",
+    defaults: ["hidl_defaults"],
+    relative_install_path: "hw",
+    soong_config_variables: {
+        POS_X: {
+            cppflags: ["-DFOD_POS_X=%s"],
+        },
+        POS_Y: {
+            cppflags: ["-DFOD_POS_Y=%s"],
+        },
+        SIZE: {
+            cppflags: ["-DFOD_SIZE=%s"],
+        },
+    },
+    srcs: [
+        "service.cpp",
+        "FingerprintInscreen.cpp",
+    ],
+    shared_libs: [
+        "libbase",
+        "libhardware",
+        "libhidlbase",
+        "liblog",
+        "libutils",
+        "vendor.lineage.biometrics.fingerprint.inscreen@1.0",
+        "vendor.samsung.fingerprint.extension@1.0",
+        "vendor.samsung.hardware.display@1.0",
+    ],
+}
+
+cc_binary {
+    name: "lineage.biometrics.fingerprint.inscreen@1.0-service.samsung",
+    defaults: ["samsung_fod_hal_defaults"],
+    vintf_fragments: ["lineage.biometrics.fingerprint.inscreen@1.0-service.samsung.xml"],
+    init_rc: ["lineage.biometrics.fingerprint.inscreen@1.0-service.samsung.rc"],
+    system_ext_specific: true,
+}
+
+cc_binary {
+    name: "vendor.lineage.biometrics.fingerprint.inscreen@1.0-service.samsung",
+    defaults: ["samsung_fod_hal_defaults"],
+    vintf_fragments: ["vendor.lineage.biometrics.fingerprint.inscreen@1.0-service.samsung.xml"],
+    init_rc: ["vendor.lineage.biometrics.fingerprint.inscreen@1.0-service.samsung.rc"],
+    vendor: true,
+}
+
+cc_library_static {
+    name: "libfod_extension.samsung",
+    srcs: ["FodExtension.cpp"],
+    include_dirs: [
+        "frameworks/native/services/surfaceflinger/CompositionEngine/include",
+    ],
+}
+

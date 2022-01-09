@@ -1,0 +1,6 @@
+package vendor.samsung.fingerprint.extension@1.0;
+
+struct FpTest {
+    string name;
+    int32_t cmdId;
+};
